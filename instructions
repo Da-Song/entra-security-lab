@@ -1,0 +1,5 @@
+python webserver starten:
+    cd frontend
+    python3 -m http.server 3001
+fastAPI starten
+    uvicorn main:app --reload --port 8000
