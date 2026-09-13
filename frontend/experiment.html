@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Security Token Experiment</title>
+
+    <link rel="stylesheet" href="experiment.css">
+</head>
+
+<body>
+
+    <h1>Security Token Experiment</h1>
+
+    <p class="subtitle">
+        Untersuche verschiedene Access-Token anhand ihrer Claims
+        und prognostiziere, ob die API sie akzeptieren wird.
+    </p>
+
+
+    <div class="experiment-layout">
+
+        <!-- LINKE SEITE: ERKLÄRUNGEN ZU DEN RELEVANTEN CLAIMS -->
+
+        <aside class="claims-info">
+
+            <h2>Was wäre ein gültiges Token? Einige Bedingungen ... </h2>
+
+            <div class="claim-info">
+                <h3>1. Der Aussteller </h3>
+                <p>
+                    Token müssen von Microsoft Entra ID ausgestellt werden.
+                </p>
+                <code>
+                    https://sts.windows.net/...
+                </code>
+            </div>
+
+            <div class="claim-info">
+                <h3>2. Der vorgesehene Empfänger</h3>
+                <p>
+                    Token müssen für die API ausgestellt sein, die sie aufruft.
+                </p>
+                <code>
+                    api://...
+                </code>
+            </div>
+
+            <div class="claim-info">
+                <h3>3. Die erforderlichen Berechtigungen</h3>
+                <p>
+                    Im Token muss die Berechtigung enthalten sein, die die API für den Zugriff benötigt. Diese wurde
+                    bei der Registrierung der API in Microsoft Entra ID definiert.
+                </p>
+                <code>
+                    access_as_user
+                </code>
+
+
+        </aside>
+
+
+        <!-- RECHTE SEITE: TOKEN-SZENARIEN -->
+
+        <main class="token-area">
+
+            <h2>Wähle ein Token</h2>
+
+            <p>
+                Untersuche die Claims und entscheide zunächst selbst,
+                ob das Token gültig ist.
+            </p>
+
+
+            <div class="token-cards">
+
+                <!-- TOKEN 1 -->
+
+                <button class="token-card" id="token1">
+
+                    <h3>Token A</h3>
+
+                    <div class="token-claim">
+                        <span>iss</span>
+                        <code>"https://sts.windows.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>aud</span>
+                        <code>aud: 
+"api://4fa3c2d0-7cfc-44f8-b3ef-98e62b50a762"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>scp</span>
+                        <code>access_as_user</code>
+                    </div>
+
+
+
+
+                </button>
+
+
+                <!-- TOKEN 2 -->
+
+                <button class="token-card" id="token2">
+
+                    <h3>Token B</h3>
+
+                    <div class="token-claim">
+                        <span>iss</span>
+                        <code>"https://sts.windows.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>aud</span>
+                        <code>aud: 
+"api://4fa3c2d0-7cfc-44f8-b3ef-98e62b50a762"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>scp</span>
+                        <code>access_as_user</code>
+                    </div>
+
+
+
+                </button>
+
+
+                <!-- TOKEN 3 -->
+
+                <button class="token-card" id="token3">
+
+                    <h3>Token C</h3>
+
+                    <div class="token-claim">
+                        <span>iss</span>
+                        <code>"https://sts.windows.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>aud</span>
+                        <code>aud: 
+"api://4fa3c2d0-7cfc-44f8-b3ef-98e62b50a762"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>scp</span>
+                        <code>access_as_user</code>
+                    </div>
+
+
+                </button>
+
+
+                <!-- TOKEN 4 -->
+
+                <button class="token-card" id="token1">
+
+                    <h3>Token D</h3>
+
+                    <div class="token-claim">
+                        <span>iss</span>
+                        <code>"https://sts.windows.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>aud</span>
+                        <code>aud: 
+"api://4fa3c2d0-7cfc-44f8-b3ef-98e62b50a762"</code>
+                    </div>
+
+                    <div class="token-claim">
+                        <span>scp</span>
+                        <code>access_as_user</code>
+                    </div>
+
+
+                </button>
+
+            </div>
+            ```

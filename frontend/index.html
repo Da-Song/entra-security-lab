@@ -3,25 +3,174 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Entra Security Lab</title>
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <h1>Entra Security Lab</h1>
+    <h1>Entra Security Lab – Identity and Access Management</h1>
 
-    <button id="login">Mit Microsoft anmelden</button>
+    <p class="subtitle">
+        Microsoft Entra ID · OAuth 2.0 · OpenID Connect · FastAPI
+    </p>
 
-    <p id="status">Nicht angemeldet</p>
 
-    <button id="profile">Profil laden</button>
+    <div class="grid">
 
-    <pre id="result"></pre>
+        <!-- 1. Authentcation -->
+        <section class="card" id="authCard">
 
+            <h2>1. Authentifizierung</h2>
+
+            <p>
+                Anmeldung über Microsoft Entra ID.
+            </p>
+
+            <button id="login">
+                Mit Microsoft anmelden
+            </button>
+
+            <p id="status" class="status">
+                Nicht angemeldet
+            </p>
+
+        </section>
+
+
+
+
+        <!-- 2. Microsoft Graph -->
+        <section class="card" id="graphCard""">
+
+            <h2>2. Microsoft Graph</h2>
+
+            <p>
+                Benutzerinformationen aus Microsoft Graph.
+            </p>
+
+            <p id="graphName"></p>
+            <p id="graphUsername"></p>
+            <p id="graphEmail"></p>
+
+        </section>
+
+
+        <!-- 3. Security Checks  - Token Check-->
+        <section class="card" id="securityCard">
+            <h2>3. Security Checks - Access Token</h2>
+
+            <p>
+                Prüfung des Access Tokens durch die geschützte API.
+            </p>
+
+            <div class="security-test">
+                <span class="test-light" id="checkToken"></span>
+                <span>Access Token vorhanden</span>
+            </div>
+
+            <div class="security-test">
+                <span class="test-light" id="checkSignature"></span>
+                <span>Token-Signatur gültig</span>
+            </div>
+
+            <div class="security-test">
+                <span class="test-light" id="checkIssuer"></span>
+                <span>Aussteller (Issuer) korrekt</span>
+            </div>
+
+            <div class="security-test">
+                <span class="test-light" id="checkAudience"></span>
+                <span>Audience entspricht der API</span>
+            </div>
+        </section>
+
+        <!-- 4. FastAPI - protected Ressource -->
+        <section class="card" id="fastAPICard""">
+
+            <h2>4. FastAPI - Protected Resource</h2>
+
+            <p>
+                Zugriff auf die geschützte Backend-API.
+
+            </p>
+
+            <button id="profile">
+                Profil laden
+            </button>
+
+            <pre id="result"></pre>
+
+        </section>
+
+    </div>
+
+    <!-- Security Experiment Popup -->
+    <div id="experimentModal" class="modal">
+        <div class="modal-content">
+
+            <h2>Security Token Experiment</h2>
+
+            <p>
+                Wähle ein Access-Token-Szenario aus und beobachte,
+                wie FastAPI darauf reagiert.
+            </p>
+
+            <div class="token-options">
+
+                <button class="token-option" id="validToken">
+                    <strong>Gültiges Token</strong>
+                    <span>FastAPI Access Token</span>
+                </button>
+
+                <button class="token-option" id="graphToken">
+                    <strong>Graph Token</strong>
+                    <span>Audience: Microsoft Graph</span>
+                </button>
+
+                <button class="token-option" id="wrongAudience">
+                    <strong>Falsche Audience</strong>
+                    <span>Audience stimmt nicht</span>
+                </button>
+
+                <button class="token-option" id="wrongIssuer">
+                    <strong>Falscher Issuer</strong>
+                    <span>Issuer stimmt nicht</span>
+                </button>
+
+                <button class="token-option" id="expiredToken">
+                    <strong>Abgelaufenes Token</strong>
+                    <span>Token ist nicht mehr gültig</span>
+                </button>
+
+                <button class="token-option" id="invalidSignature">
+                    <strong>Manipuliertes Token</strong>
+                    <span>Signatur ist ungültig</span>
+                </button>
+
+            </div>
+
+            <div id="tokenDetails">
+                <h3>Token Claims</h3>
+                <pre id="selectedClaims">
+Noch kein Token ausgewählt.
+            </pre>
+            </div>
+
+            <button id="runTokenTest" disabled>
+                Token testen
+            </button>
+
+        </div>
+    </div>
+    <!-- MSAL -->
     <script src="https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.js"
-        integrity="sha384-o4ufwq3oKqc7IoCcR08YtZXmgOljhTggRwxP2CLbSqeXGtitAxwYaUln/05nJjit"
-        crossorigin="anonymous"></script>
-
+        integrity="sha384-o4ufwq3oKqc7IoCcR08YtZXmgOljhTggRwxP2CLbSqeXGtitAxwYaUln/05nJjit" crossorigin="anonymous">
+        </script>
     <script src="app.js"></script>
 
 </body>
