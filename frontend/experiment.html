@@ -33,9 +33,7 @@
                 <p>
                     Token müssen von Microsoft Entra ID ausgestellt werden.
                 </p>
-                <code>
-                    https://sts.windows.net/...
-                </code>
+
             </div>
 
             <div class="claim-info">
@@ -43,9 +41,7 @@
                 <p>
                     Token müssen für die API ausgestellt sein, die sie aufruft.
                 </p>
-                <code>
-                    api://...
-                </code>
+
             </div>
 
             <div class="claim-info">
@@ -54,9 +50,7 @@
                     Im Token muss die Berechtigung enthalten sein, die die API für den Zugriff benötigt. Diese wurde
                     bei der Registrierung der API in Microsoft Entra ID definiert.
                 </p>
-                <code>
-                    access_as_user
-                </code>
+
 
 
         </aside>
@@ -66,18 +60,20 @@
 
         <main class="token-area">
 
-            <h2>Wähle ein Token</h2>
+            <h2>Sind diese Token gültig ?</h2>
 
             <p>
-                Untersuche die Claims und entscheide zunächst selbst,
-                ob das Token gültig ist.
+                Untersuche die Claims der verschiedenen Access-Token und entscheide, ob die API sie akzeptieren wird.
+                Klicke auf das Token, und es wird von der API überprüft. Die Ergebnisse werden in der Sicherheitsprüfung
+                angezeigt.Durch Trial and Error erfährst du mehr über die konkreten Werte, die die API erwartet.
+
             </p>
 
 
             <div class="token-cards">
 
                 <!-- TOKEN 1 -->
-
+                <!--wrong audience, correct issuer, correct scope-->
                 <button class="token-card" id="token1">
 
                     <h3>Token A</h3>
@@ -90,7 +86,7 @@
                     <div class="token-claim">
                         <span>aud</span>
                         <code>aud: 
-"api://4fa3c2d0-7cfc-44f8-b3ef-98e62b50a762"</code>
+"https://api.open-meteo.com"</code>
                     </div>
 
                     <div class="token-claim">
@@ -105,6 +101,7 @@
 
 
                 <!-- TOKEN 2 -->
+                <!-- correct audience, correct issuer, wrong scope -->
 
                 <button class="token-card" id="token2">
 
@@ -123,7 +120,7 @@
 
                     <div class="token-claim">
                         <span>scp</span>
-                        <code>access_as_user</code>
+                        <code>user.read</code>
                     </div>
 
 
@@ -132,6 +129,7 @@
 
 
                 <!-- TOKEN 3 -->
+                <!-- correct audience, wrong issuer, correct scope -->
 
                 <button class="token-card" id="token3">
 
@@ -139,7 +137,7 @@
 
                     <div class="token-claim">
                         <span>iss</span>
-                        <code>"https://sts.windows.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"</code>
+                        <code>"https://sts.applple.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"</code>
                     </div>
 
                     <div class="token-claim">
@@ -158,8 +156,9 @@
 
 
                 <!-- TOKEN 4 -->
+                <!-- correct audience, correct issuer, correct scope -->
 
-                <button class="token-card" id="token1">
+                <button class="token-card" id="token4">
 
                     <h3>Token D</h3>
 
@@ -183,4 +182,12 @@
                 </button>
 
             </div>
-            ```
+            <div id="testResult">
+                <p>Wähle ein Token aus.</p>
+            </div>
+
+
+        </main>
+    </div>
+    <script src="experiment.js"></script>
+</body>

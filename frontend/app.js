@@ -25,6 +25,7 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 //Authentication - Login with Microsoft
+
 loginButton.addEventListener("click", async () => {
     try {
         loginButton.disabled = true;
@@ -48,11 +49,13 @@ loginButton.addEventListener("click", async () => {
         await delay(1000);
 
         // 2. Request an Microsoft Graph
+        // Acquire an access token for Microsoft Graph using the acquired account information
         const graphTokenResponse = await msalInstance.acquireTokenSilent({
             scopes: ["User.Read"],
             account: response.account
         });
 
+        //GET request to Microsoft Graph API to get user profile information
         const graphResponse = await fetch(
             "https://graph.microsoft.com/v1.0/me",
             {
@@ -137,9 +140,7 @@ loginButton.addEventListener("click", async () => {
 
             console.log("Antwort von FastAPI:", data);
 
-            // Profilinformationen anzeigen
-            document.getElementById("result").textContent =
-                JSON.stringify(data, null, 2);
+
 
             // FastAPI-Card erfolgreich
             markSuccess("fastAPICard");
@@ -158,8 +159,9 @@ loginButton.addEventListener("click", async () => {
     catch (error) {
         console.error("Fehler:", error);
         statusElement.textContent = "Fehler: " + error.message;
+        loginButton.disabled = false;
     }
-    finally { loginButton.disabled = false; }
+
 });
 
 // Function to flash the success card
@@ -171,3 +173,4 @@ function markSuccess(cardId) {
 
     card.classList.add("success");
 }
+

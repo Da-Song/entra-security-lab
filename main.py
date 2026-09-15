@@ -4,6 +4,7 @@ import jwt
 import requests # for requesting public keys from entra
 from jwt import PyJWKClient
 from pydantic import BaseModel
+from cryptography.hazmat.primitives.asymmetric import rsa
 
 
 TENANT_ID = "a5c0f00c-1e40-41ef-ab28-b6412a667908"
@@ -13,6 +14,14 @@ ISSUER = "https://sts.windows.net/a5c0f00c-1e40-41ef-ab28-b6412a667908/"
 JWKS_URL = "https://login.microsoftonline.com/a5c0f00c-1e40-41ef-ab28-b6412a667908/discovery/v2.0/keys"
 
 API_AUDIENCE = "api://4fa3c2d0-7cfc-44f8-b3ef-98e62b50a762"
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+TEST_PRIVATE_KEY = rsa.generate_private_key(
+    public_exponent=65537,
+    key_size=2048
+)
+
+TEST_PUBLIC_KEY = TEST_PRIVATE_KEY.public_key()
 
 jwks_client = PyJWKClient(JWKS_URL)
 
@@ -47,16 +56,62 @@ class SecurityTestRequest(BaseModel):
     audience: str
     scope: str
 
-
 @app.post("/api/security-test")
 def security_test(test: SecurityTestRequest):
 
-    return {
-        "received": True,
-        "issuer": test.issuer,
-        "audience": test.audience,
-        "scope": test.scope
+    payload = {
+        "iss": test.issuer,
+        "aud": test.audience,
+        "scp": test.scope,
+        "exp": 9999999999
     }
+
+    test_token = jwt.encode(
+        payload,
+        TEST_PRIVATE_KEY,
+        algorithm="RS256"
+    )
+
+    print("TEST-JWT:", test_token)
+
+        # Test-JWT validieren
+    try:
+        claims = jwt.decode(
+            test_token,
+            TEST_PUBLIC_KEY,
+            algorithms=["RS256"],
+            audience=API_AUDIENCE,
+            issuer=ISSUER,
+        )
+
+        print("JWT-Signatur und Standard-Claims gültig:", claims)
+
+        scopes = claims.get("scp", "").split()
+
+        if "access_as_user" not in scopes:
+            return {
+                "valid": False,
+                "message": "Test-JWT wurde abgelehnt",
+                "error": "Erforderlicher Scope 'access_as_user' fehlt"
+            }
+        
+        return {
+            "valid": True,
+            "message": "Test-JWT ist gültig",
+            "claims": claims
+        }
+
+    except Exception as e:
+
+        print("TEST-JWT INVALID:", repr(e))
+
+        return {
+            "valid": False,
+            "message": "Test-JWT wurde abgelehnt",
+            "error": str(e)
+        }
+    
+    
 
 
 @app.get("/")

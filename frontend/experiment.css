@@ -1,4 +1,4 @@
-```css * {
+* {
     box-sizing: border-box;
 }
 
@@ -183,7 +183,7 @@ h1 {
 
 /* Ergebnis */
 
-.result {
+#testResult {
     background: white;
     margin-top: 25px;
     padding: 22px;
@@ -191,11 +191,11 @@ h1 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.result h2 {
+#testResult h2 {
     margin-top: 0;
 }
 
-#result {
+#testResult {
     padding: 15px;
     background: #f8fafc;
     border-radius: 8px;
@@ -216,4 +216,6 @@ h1 {
     }
 }
 
-```
+.token-card.selected {
+    border: 3px solid green;
+}
